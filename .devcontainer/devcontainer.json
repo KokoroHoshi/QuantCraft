@@ -4,6 +4,10 @@
 	"name": "C++",
 	"build": {
 		"dockerfile": "Dockerfile"
+	},
+	"postCreateCommand": "vcpkg install cpp-httplib[openssl] nlohmann-json",
+	"remoteEnv": {
+		"CMAKE_TOOLCHAIN_FILE": "/usr/local/vcpkg/scripts/buildsystems/vcpkg.cmake"
 	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
