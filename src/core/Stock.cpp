@@ -27,3 +27,17 @@ void Stock::addCandles(const std::vector<Candlestick>& new_candles) {
 const std::vector<Candlestick>& Stock::getCandles() const {
     return candles;
 }
+
+CandleArrays Stock::getCandleArrays() {
+    CandleArrays arr;
+
+    for (size_t i = 0; i < candles.size(); ++i) {
+        arr.x.push_back((double)i);
+        arr.open.push_back(candles[i].open);
+        arr.high.push_back(candles[i].high);
+        arr.low.push_back(candles[i].low);
+        arr.close.push_back(candles[i].close);
+    }
+
+    return arr;
+}

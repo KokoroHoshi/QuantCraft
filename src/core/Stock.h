@@ -6,6 +6,14 @@
 
 #include "Candlestick.h"
 
+struct CandleArrays {
+    std::vector<double> x;
+    std::vector<double> open;
+    std::vector<double> high;
+    std::vector<double> low;
+    std::vector<double> close;
+};
+
 class Stock {
 public:
     std::string symbol;
@@ -20,6 +28,8 @@ public:
     void addCandles(const std::vector<Candlestick>& new_candles);
 
     const std::vector<Candlestick>& getCandles() const;
+
+    CandleArrays getCandleArrays();
 };
 
 #endif // STOCK_H

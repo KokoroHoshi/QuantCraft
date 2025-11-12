@@ -10,6 +10,15 @@ RUN if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
     fi \
     && rm -f /tmp/reinstall-cmake.sh
 
+# Update apt package index and install system dependencies for GLFW3
+RUN apt-get update && \
+    apt-get install -y \
+        libxinerama-dev \
+        libxcursor-dev \
+        xorg-dev \
+        libglu1-mesa-dev \
+        pkg-config
+
 # [Optional] Uncomment this section to install additional vcpkg ports.
 # RUN su vscode -c "${VCPKG_ROOT}/vcpkg install <your-port-name-here>"
 
