@@ -12,5 +12,5 @@ add_executable(main
     src/Stock.cpp
 )
 
-# add_executable(test_http src/test_http.cpp)
-# target_link_libraries(test_http PRIVATE httplib::httplib nlohmann_json::nlohmann_json)
+add_executable(test_http src/test_http.cpp)
+target_link_libraries(test_http PRIVATE httplib::httplib nlohmann_json::nlohmann_json)
