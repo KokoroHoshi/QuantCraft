@@ -1,17 +1,23 @@
 #include "Stock.h"
+#include "JsonParser.h"
 
-#include <iostream>
 #include <vector>
+#include <iostream>
+#include <stdexcept>
 
 int main() {
-    // example
-    Stock s1("AAPL", "2025-11-11", 150.0, 155.0, 149.0, 153.0, 1000000);
-    Stock s2("MSFT", "2025-11-11", 300.0, 305.0, 295.0, 302.0, 500000);
-    
-    std::vector<Stock> stocks = {s1, s2};
+    try {
+        Stock stock("0050");
+        
+        std::vector<Candlestick> candles = Parser::parseTWSEJsonFile("data/0050_20251112.json");
 
-    for (const auto& s: stocks) {
-        s.print();
+        stock.addCandles(candles);
+
+        stock.print(5);
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << "\n";
+        return 1;
     }
 
     return 0;
