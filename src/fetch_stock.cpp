@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
-#include <exception>
+#include <stdexcept>
 
 #include <httplib.h>
 #include <nlohmann/json.hpp>

@@ -2,8 +2,11 @@
 #define STOCK_H
 
 #include <string>
+#include <vector>
 
 class Stock {
+private:
+    static long long parseVolume(const std::string& str);
 public:
     std::string symbol;
     std::string date; // YYYY-MM-DD
@@ -24,6 +27,8 @@ public:
     );
 
     void print() const;
+
+    static Stock fromJsonRow(const std::string& symbol, const std::vector<std::string>& row);
 };
 
 #endif // STOCK_H
