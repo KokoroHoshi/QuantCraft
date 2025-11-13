@@ -11,7 +11,7 @@ int main() {
     try {
         Stock stock("0050");
 
-        stock.addCandles(Parser::parseTWSEJsonFile("data/0050_20251112.json"));
+        stock.addCandles(Parser::parseYfinanceJsonFile("data/0050.TW_1y_1d.json"));
 
         std::cout << "Loaded " << stock.candles.size() << " candlesticks.\n";
         stock.print(5);

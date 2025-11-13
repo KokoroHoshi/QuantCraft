@@ -41,6 +41,16 @@ namespace {
             throw std::runtime_error("Failed to parse date: " + date_str);
         }
     }
+
+    std::string unixToDateString(long timestamp) {
+        std::time_t t = static_cast<time_t>(timestamp);
+        std::tm tm{};
+        localtime_r(&t, &tm);
+        
+        std::ostringstream oss;
+        oss << std::put_time(&tm, "%Y-%m-%d");
+        return oss.str();
+    }
 }
 
 namespace Parser {
@@ -76,5 +86,54 @@ namespace Parser {
         fin.close();
 
         return parseTWSEJsonArray(data);
+    }
+
+    std::vector<Candlestick> parseYfinanceJson(const json& data) {
+        std::vector<Candlestick> candles;
+
+        try {
+            if (!data.contains("chart"))
+                throw std::runtime_error("Missing 'chart' field");
+            if (data["chart"]["error"] != nullptr)
+                throw std::runtime_error("YFinance returned an error");
+
+            auto result = data["chart"]["result"].at(0);
+            const auto& timestamps = result["timestamp"];
+            const auto& quote = result["indicators"]["quote"].at(0);
+
+            size_t n = timestamps.size();
+
+            if (n == 0) throw std::runtime_error("No candle data found");
+
+            candles.reserve(n);
+
+            for (size_t i = 0; i < n; i++) {
+                std::string date = unixToDateString(timestamps[i].get<long>());
+            
+                double open   = quote["open"][i].get<double>();
+                double high   = quote["high"][i].get<double>();
+                double low    = quote["low"][i].get<double>();
+                double close  = quote["close"][i].get<double>();
+                long long vol = quote["volume"][i].get<long long>();
+
+                candles.emplace_back(date, open, high, low, close, vol);
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "[parseYfinanceJson] Error: " << e.what() << "\n";
+            throw;
+        }
+
+        return candles;
+    }
+
+    std::vector<Candlestick> parseYfinanceJsonFile(const std::string& filepath) {
+        std::ifstream fin(filepath);
+        if (!fin) throw std::runtime_error("Failed to open file: " + filepath);
+
+        json data;
+        fin >> data;
+        fin.close();
+
+        return parseYfinanceJson(data);
     }
 }
