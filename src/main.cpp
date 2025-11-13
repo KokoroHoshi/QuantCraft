@@ -1,5 +1,7 @@
 #include "Stock.h"
 #include "JsonParser.h"
+#include "Indicators.h"
+#include "SimpleStrategy.h"
 
 #include <vector>
 #include <iostream>
@@ -8,12 +10,34 @@
 int main() {
     try {
         Stock stock("0050");
-        
-        std::vector<Candlestick> candles = Parser::parseTWSEJsonFile("data/0050_20251112.json");
 
-        stock.addCandles(candles);
+        stock.addCandles(Parser::parseTWSEJsonFile("data/0050_20251112.json"));
 
+        std::cout << "Loaded " << stock.candles.size() << " candlesticks.\n";
         stock.print(5);
+
+        // indicators
+        std::vector<std::string> dates;
+        std::vector<double> closes;
+        for (const auto& c : stock.candles) {
+            dates.push_back(c.date);
+            closes.push_back(c.close);
+        }
+
+        auto short_MA = Indicators::SMA(closes, dates, 5);
+        auto long_MA = Indicators::SMA(closes, dates, 10);
+
+        std::cout << "Calculated SMA(5) and SMA(10).\n";
+
+        // signal
+        auto signals = SimpleMAStrategy::generateSignals(short_MA, long_MA);
+
+        std::cout << "Generated " << signals.size() << "signals.\n\n";
+        for (const auto& s : signals) {
+            std::cout << s.date << ":"
+                      << (s.type == SignalType::LONG? "BUY (LONG)" : "SELL (SHORT)")
+                      << "\n";
+        }
 
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << "\n";

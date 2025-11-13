@@ -7,23 +7,31 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(httplib CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 
-# src/core
+# === core library ===
 add_library(core STATIC
     src/core/Candlestick.cpp 
     src/core/Stock.cpp
+    src/core/Indicators.cpp
 )
 target_include_directories(core PUBLIC src/core)
 
-# src/io
+# === io library ===
 add_library(io STATIC
     src/io/JsonParser.cpp
 )
 target_include_directories(io PUBLIC src/io)
 target_link_libraries(io PRIVATE httplib::httplib nlohmann_json::nlohmann_json)
 
+# === strategy library ===
+add_library(strategy STATIC
+    src/strategy/SimpleStrategy.cpp
+)
+target_include_directories(strategy PUBLIC src/strategy)
+target_link_libraries(strategy PUBLIC core)
+
 # main
 add_executable(main src/main.cpp)
-target_link_libraries(main PRIVATE core io nlohmann_json::nlohmann_json)
+target_link_libraries(main PRIVATE core io strategy nlohmann_json::nlohmann_json)
 
 # fetch_stock
 add_executable(fetch_stock src/io/fetch_stock.cpp)

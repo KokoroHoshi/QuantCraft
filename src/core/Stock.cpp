@@ -12,6 +12,8 @@ void Stock::print(int limit = -1) const {
         if (limit != -1 && printed >= limit) break;
         
         candle.print();
+        
+        printed++;
     }
 }
 
