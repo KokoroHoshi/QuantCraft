@@ -17,15 +17,8 @@ int main() {
         stock.print(5);
 
         // indicators
-        std::vector<std::string> dates;
-        std::vector<double> closes;
-        for (const auto& c : stock.candles) {
-            dates.push_back(c.date);
-            closes.push_back(c.close);
-        }
-
-        auto short_MA = Indicators::SMA(closes, dates, 5);
-        auto long_MA = Indicators::SMA(closes, dates, 10);
+        auto short_MA = Indicators::SMA(stock.candles, 5);
+        auto long_MA = Indicators::SMA(stock.candles, 10);
 
         std::cout << "Calculated SMA(5) and SMA(10).\n";
 

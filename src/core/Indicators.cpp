@@ -3,20 +3,22 @@
 #include <numeric>
 
 std::vector<IndicatorPoint> Indicators::SMA(
-    const std::vector<double>& data,
-    const std::vector<std::string>& dates,
+    const std::vector<Candlestick>& candles,
     size_t period
 ) {
     std::vector<IndicatorPoint> result;
 
-    if (data.size() < period) return result;
+    if (candles.size() < period) return result;
 
-    double sum = std::accumulate(data.begin(), data.begin() + period, 0.0);
-    result.push_back({dates[period - 1], sum / period});
+    double sum = 0.0;
+    for (size_t i = 0; i < period; i++) {
+        sum += candles[i].close;
+    }
+    result.push_back({candles[period - 1].date, sum / period});
 
-    for (size_t i = period; i < data.size(); i++) {
-        sum += data[i] - data[i - period];
-        result.push_back({dates[i], sum / period});
+    for (size_t i = period; i < candles.size(); i++) {
+        sum += candles[i].close - candles[i - period].close;
+        result.push_back({candles[i].date, sum / period});
     }
 
     return result;

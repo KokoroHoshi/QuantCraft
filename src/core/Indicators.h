@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "Candlestick.h"
+
 struct IndicatorPoint {
     std::string date;
     double value;
@@ -11,8 +13,7 @@ struct IndicatorPoint {
 
 namespace Indicators {
     std::vector<IndicatorPoint> SMA(
-        const std::vector<double>& data,
-        const std::vector<std::string>& dates,
+        const std::vector<Candlestick>& candles,
         size_t period
     );
 }
