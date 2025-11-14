@@ -1,7 +1,7 @@
 #include "Stock.h"
 #include "JsonParser.h"
 #include "Indicators.h"
-#include "SimpleStrategy.h"
+#include "DoubleLineCrossover.h"
 
 #include <vector>
 #include <iostream>
@@ -17,13 +17,14 @@ int main() {
         stock.print(5);
 
         // indicators
-        auto short_MA = Indicators::SMA(stock.candles, 5);
-        auto long_MA = Indicators::SMA(stock.candles, 10);
+        auto fast_MA = Indicators::SMA(stock.candles, 5);
+        auto slow_MA = Indicators::SMA(stock.candles, 10);
 
         std::cout << "Calculated SMA(5) and SMA(10).\n";
 
         // signal
-        auto signals = DoubleLineCrossover::generateSignals(short_MA, long_MA);
+        DoubleLineCrossover strategy(fast_MA, slow_MA);
+        auto signals = strategy.generateSignals();
 
         std::cout << "Generated " << signals.size() << "signals.\n\n";
         for (const auto& s : signals) {

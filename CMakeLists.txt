@@ -23,9 +23,8 @@ target_include_directories(io PUBLIC src/io)
 target_link_libraries(io PRIVATE httplib::httplib nlohmann_json::nlohmann_json)
 
 # === strategy library ===
-add_library(strategy STATIC
-    src/strategy/SimpleStrategy.cpp
-)
+file(GLOB SRC_STRATEGY "src/strategy/*.cpp")
+add_library(strategy STATIC ${SRC_STRATEGY})
 target_include_directories(strategy PUBLIC src/strategy)
 target_link_libraries(strategy PUBLIC core)
 

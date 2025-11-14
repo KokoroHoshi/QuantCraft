@@ -1,11 +1,8 @@
-#include "SimpleStrategy.h"
+#include "DoubleLineCrossover.h"
 
 #include <algorithm>
 
-std::vector<SignalPoint> DoubleLineCrossover::generateSignals (
-    const std::vector<IndicatorPoint>& fast,
-    const std::vector<IndicatorPoint>& slow
-) {
+std::vector<SignalPoint> DoubleLineCrossover::generateSignals () {
     std::vector<SignalPoint> signals;
     size_t n = std::min(fast.size(), slow.size());
 
