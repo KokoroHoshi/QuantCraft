@@ -30,12 +30,12 @@ int main() {
         std::cout << "Calculated SMA(5) and SMA(10).\n";
 
         // signal
-        auto signals = SimpleMAStrategy::generateSignals(short_MA, long_MA);
+        auto signals = DoubleLineCrossover::generateSignals(short_MA, long_MA);
 
         std::cout << "Generated " << signals.size() << "signals.\n\n";
         for (const auto& s : signals) {
             std::cout << s.date << ":"
-                      << (s.type == SignalType::LONG? "BUY (LONG)" : "SELL (SHORT)")
+                      << (s.type == SignalType::BUY? "BUY" : "SELL")
                       << "\n";
         }
 

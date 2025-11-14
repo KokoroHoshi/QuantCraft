@@ -7,9 +7,9 @@
 #include "Indicators.h"
 
 enum class SignalType {
-    NONE,
-    LONG, // Buy
-    SHORT // Sell
+    HOLD,
+    BUY,
+    SELL 
 };
 
 struct SignalPoint {
@@ -17,11 +17,11 @@ struct SignalPoint {
     SignalType type;
 };
 
-class SimpleMAStrategy {
+class DoubleLineCrossover {
 public:
     static std::vector<SignalPoint> generateSignals (
-        const std::vector<IndicatorPoint>& short_MA,
-        const std::vector<IndicatorPoint>& long_MA
+        const std::vector<IndicatorPoint>& fast,
+        const std::vector<IndicatorPoint>& slow
     );
 };
 
