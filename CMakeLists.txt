@@ -28,9 +28,15 @@ add_library(strategy STATIC ${SRC_STRATEGY})
 target_include_directories(strategy PUBLIC src/strategy)
 target_link_libraries(strategy PUBLIC core)
 
+# === backtest library ===
+file(GLOB SRC_STRATEGY "src/backtest/*.cpp")
+add_library(backtest STATIC ${SRC_STRATEGY})
+target_include_directories(backtest PUBLIC src/backtest)
+target_link_libraries(backtest PUBLIC core strategy nlohmann_json::nlohmann_json)
+
 # main
 add_executable(main src/main.cpp)
-target_link_libraries(main PRIVATE core io strategy nlohmann_json::nlohmann_json)
+target_link_libraries(main PRIVATE core io strategy backtest nlohmann_json::nlohmann_json)
 
 # fetch_stock
 add_executable(fetch_stock src/io/fetch_stock.cpp)
