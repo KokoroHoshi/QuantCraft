@@ -9,9 +9,10 @@
 
 int main() {
     try {
-        Stock stock("0050");
-
-        stock.addCandles(Parser::parseYfinanceJsonFile("data/0050.TW_1y_1d.json"));
+        Stock stock(
+            "0050", 
+            Parser::parseYfinanceJsonFile("data/0050.TW_1y_1d.json")
+        );
 
         std::cout << "Loaded " << stock.candles.size() << " candlesticks.\n";
         stock.print(5);

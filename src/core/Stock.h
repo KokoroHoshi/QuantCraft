@@ -12,7 +12,9 @@ public:
     std::vector<Candlestick> candles;
 
     Stock() = default;
-    explicit Stock(const std::string& symbol);
+    explicit Stock(const std::string& symbol) : symbol(symbol) {};
+    Stock(const std::string& symbol, const std::vector<Candlestick>& candles)
+        : symbol(symbol), candles(candles) {}
 
     void print(int limit) const;
     

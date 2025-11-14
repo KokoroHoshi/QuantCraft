@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-Stock::Stock(const std::string& symbol_) : symbol(symbol_) {}
-
 void Stock::print(int limit = -1) const {
     std::cout << "Stock: " << symbol << "\n";
 
