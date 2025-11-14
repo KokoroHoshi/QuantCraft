@@ -16,10 +16,16 @@ struct SignalPoint {
 };
 
 class Strategy {
+protected:
+    std::string name;
 public:
+    Strategy(const std::string& name) : name(name) {}
+
     virtual ~Strategy() = default;
 
     virtual std::vector<SignalPoint> generateSignals() = 0;
+
+    std::string getName() const { return name; }
 };
 
 #endif

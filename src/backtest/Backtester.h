@@ -26,6 +26,9 @@ public:
     void run(bool print_performance = true, const std::string& save_trades_path = "");
 
     void printPerformance() const;
+
+    void savePerformanceToJson(const std::string& path) const;
+
     void saveTradesToJson(const std::string& path) const;
 };
 

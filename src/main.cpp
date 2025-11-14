@@ -44,6 +44,8 @@ int main() {
         
         backtester.printPerformance();
 
+        backtester.savePerformanceToJson("output/performance.json");
+        
         backtester.saveTradesToJson("output/trades.json");
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << "\n";

@@ -15,8 +15,9 @@ private:
 public:
     DoubleLineCrossover(
         const std::vector<IndicatorPoint>& fast_line,
-        const std::vector<IndicatorPoint>& slow_line
-    ) : fast(fast_line), slow(slow_line) {}
+        const std::vector<IndicatorPoint>& slow_line,
+        const std::string& name = "DoubleLineCrossover"
+    ) : fast(fast_line), slow(slow_line), Strategy(name) {}
 
     std::vector<SignalPoint> generateSignals() override;
 };

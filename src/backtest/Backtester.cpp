@@ -116,11 +116,37 @@ void Backtester::printPerformance() const {
     std::cout << "Number of trades: " << trades.size() << "\n";
 }
 
+void Backtester::savePerformanceToJson(const std::string& path) const {
+    json data;
+
+    data["strategy_name"] = strategy->getName();
+    data["total_profit"] = computeTotalProfit();
+    data["win_rate"] = computeWinRate();
+    data["number_of_trades"] = trades.size();
+
+    std::filesystem::create_directory(std::filesystem::path(path).parent_path());
+    
+    std::ofstream out(path);
+
+    if (!out.is_open()) {
+        std::cerr << "[Error] Cannot open file: " << path << "\n";
+        return;
+    }
+
+    out << data.dump(4);
+    out.close();
+
+    std::cout << "[Info] Performance saved to " << path << "\n";
+}
+
 void Backtester::saveTradesToJson(const std::string& path) const {
-    json trades_json = json::array();
+    json data;
+
+    data["strategy_name"] = strategy->getName();
+    data["trades"] = json::array();
 
     for (const auto& trade : trades) {
-        trades_json.push_back({
+        data["trades"].push_back({
             {"date", trade.date},
             {"type", trade.type == TradeType::BUY? "BUY" : "SELL"},
             {"price", trade.price},
@@ -137,7 +163,7 @@ void Backtester::saveTradesToJson(const std::string& path) const {
         return;
     }
 
-    out << trades_json.dump(4);
+    out << data.dump(4);
     out.close();
 
     std::cout << "[Info] Trades saved to " << path << "\n";
