@@ -29,7 +29,7 @@ int main() {
         DoubleLineCrossover strategy(fast_MA, slow_MA);
         auto signals = strategy.generateSignals();
 
-        std::cout << "Generated " << signals.size() << "signals.\n\n";
+        std::cout << "Generated " << signals.size() << " signals.\n\n";
         for (const auto& s : signals) {
             std::cout << s.date << ":"
                       << (s.type == SignalType::BUY? "BUY" : "SELL")
