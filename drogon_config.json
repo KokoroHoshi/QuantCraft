@@ -1,0 +1,14 @@
+{
+    "listeners": [
+        {
+            "address": "0.0.0.0",
+            "port": 8080
+        }
+    ],
+    "run_mode": "HTTP",
+    "log": {
+        "log_path": "./log",
+        "level": "INFO"
+    },
+    "controllers_path": "./src/api"
+}

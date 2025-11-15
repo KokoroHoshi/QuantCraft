@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(httplib CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(Drogon CONFIG REQUIRED)
 
 # === core library ===
 add_library(core STATIC
@@ -30,9 +31,25 @@ add_library(strategy STATIC ${SRC_STRATEGY})
 target_include_directories(strategy PUBLIC src/strategy)
 target_link_libraries(strategy PUBLIC core)
 
+# === services library ===
+file(GLOB SRC_SERVICES "src/services/*.cpp")
+add_library(services STATIC ${SRC_SERVICES})
+target_include_directories(services PUBLIC src/services)
+target_link_libraries(services PUBLIC core io nlohmann_json::nlohmann_json httplib::httplib)
+
+# === api library ===
+file(GLOB SRC_API "src/api/*.cpp")
+add_library(api STATIC ${SRC_API})
+target_include_directories(api PUBLIC src/api)
+target_link_libraries(api PUBLIC Drogon::Drogon services)
+
 # main
-add_executable(main src/main.cpp)
-target_link_libraries(main PRIVATE core io strategy nlohmann_json::nlohmann_json)
+add_executable(main src/main.cpp src/api/StockController.cpp)
+target_link_libraries(main PRIVATE core io strategy api services nlohmann_json::nlohmann_json Drogon::Drogon)
+
+# local_test
+add_executable(local_test src/local_test.cpp)
+target_link_libraries(local_test PRIVATE core io strategy api services nlohmann_json::nlohmann_json)
 
 # fetch_stock
 add_executable(fetch_stock src/io/fetch_stock.cpp)
