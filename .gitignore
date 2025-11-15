@@ -4,5 +4,5 @@ data/
 output/
 
 # Drogon logs and temp files
-/log/
-/uploads/tmp/
+logs/
+uploads/tmp/

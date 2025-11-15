@@ -3,6 +3,8 @@
 #include "../services/StockService.h"
 
 void StockController::getTest(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback) {
+    LOG_INFO << "/test endpoint hit!";
+
     json data = {
         {"message", "HHW!"},
         {"status", "success"}
@@ -16,6 +18,7 @@ void StockController::getTest(const HttpRequestPtr &req, std::function<void(cons
 }
 
 void StockController::getStock(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback) {
+    LOG_INFO << "/api/stock endpoint hit!";
     try {
         auto symbol = req->getParameter("symbol");
         auto rangeParam = req->getParameter("range");
